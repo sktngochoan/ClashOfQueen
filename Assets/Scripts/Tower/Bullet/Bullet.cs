@@ -3,16 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class NormalBullet : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    public static void Create(Vector3 spawnPosition, testEnemy enemy)
+    public static void Create(Vector3 spawnPosition, Enemy enemy,int typeTower)
     {
-        Transform bulletTransform = Instantiate(GameAssets.i.normalBullet, spawnPosition, Quaternion.identity);
-        NormalBullet normalBullet = bulletTransform.GetComponent<NormalBullet>();
+        Transform bulletTransform = null;
+        if(typeTower == 1)
+        {
+            bulletTransform = Instantiate(GameAssets.i.normalBullet, spawnPosition, Quaternion.identity);
+        }
+        else if (typeTower == 2)
+        {
+            bulletTransform = Instantiate(GameAssets.i.iceBullet, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            bulletTransform = Instantiate(GameAssets.i.poisonBullet, spawnPosition, Quaternion.identity);
+        }
+        Bullet normalBullet = bulletTransform.GetComponent<Bullet>();
         normalBullet.Setup(enemy);
     }
-    private testEnemy enemy;
-    private void Setup(testEnemy enemy)
+    private Enemy enemy;
+    private void Setup(Enemy enemy)
     {
         this.enemy = enemy;
     }
