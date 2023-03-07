@@ -14,15 +14,15 @@ public class EnermyWalk : MonoBehaviour
     void Start()
     {
         // tìm kiếm và lưu trữ tọa độ của các điểm đến vào mảng
-        waypoints = new Vector3[11];
-        for (int i = 1; i <= 11; i++)
+        waypoints = new Vector3[12];
+        for (int i = 1; i <= 12; i++)
         {
             GameObject pointWay = GameObject.Find("pointWay" + i);
             waypoints[i - 1] = pointWay.transform.position;
         }
 
         // di chuyển quái thú đến điểm đến đầu tiên
-        transform.position = waypoints[0];
+        //transform.position = waypoints[0];
         isMoving = true;
 
     }
@@ -43,12 +43,14 @@ public class EnermyWalk : MonoBehaviour
             if (Vector3.Distance(transform.position, waypoints[currentWaypoint]) < distanceThreshold)
             {
                 currentWaypoint++;
-                if (currentWaypoint >= waypoints.Length)
+                if (currentWaypoint ==12 )
                 {
                     // nếu quái thú đã đi đến điểm đến cuối cùng, hủy đối tượng quái thú và trừ điểm máu của player
-                    Destroy(gameObject);
+                    Destroy(gameObject,3f);
+                    Enemy enemy = gameObject.GetComponent<Enemy>();
+                    Enemy.RemoveEnemy(enemy);
                     // subtract player health
-                    Debug.Log("Player health decreased!");
+                    isMoving = false;
                 }
             }
         }

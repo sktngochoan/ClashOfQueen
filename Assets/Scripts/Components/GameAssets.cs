@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameAssets : MonoBehaviour
 {
     public Transform normalBullet;
+    public Transform iceBullet;
+    public Transform poisonBullet;
     private static GameAssets _i;
     public static GameAssets i
     {
