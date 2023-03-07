@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
+    public float slow = 2f;
     public static void Create(Vector3 spawnPosition, Enemy enemy,int typeTower)
     {
         Transform bulletTransform = null;
@@ -37,11 +38,11 @@ public class Bullet : MonoBehaviour
         transform.position += moveDir * moveSpeed * Time.deltaTime;
         float anlge = changeAngle(moveDir);
         gameObject.transform.eulerAngles = new Vector3(0, 0, anlge);
-        float destroyDistance = 1f;
-        if(Vector3.Distance(transform.position,targetPosition) < destroyDistance)
-        {
-            Destroy(gameObject);
-        }
+        //float destroyDistance = 1f;
+        //if(Vector3.Distance(transform.position,targetPosition) < destroyDistance)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     private float changeAngle(Vector3 dir)
@@ -50,5 +51,10 @@ public class Bullet : MonoBehaviour
         float n = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         if (n < 0) n += 360;
         return n;
+    }
+
+    public float getSlow()
+    {
+        return slow;
     }
 }
