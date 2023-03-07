@@ -6,9 +6,19 @@ public class PoisonTower : MonoBehaviour
 {
     private Vector3 shootingPosition;
     private Timer timer;
-
+    private int lvl;
+    private float speed;
+    [SerializeField]
+    private float range;
+    private float damage;
+    private float poison;
+    private GameObject rangeCircle;
     private void Awake()
     {
+        rangeCircle = transform.Find("range").gameObject;
+        rangeCircle.SetActive(false);
+        towerDefaul();
+        changeRange(range);
         getTowerPosition();
     }
     private void getTowerPosition()
@@ -25,7 +35,7 @@ public class PoisonTower : MonoBehaviour
             Bullet.Create(shootingPosition, enemy, 3);
         }
         timer = gameObject.AddComponent<Timer>();
-        timer.Duration = 2f;
+        timer.Duration = speed;
         timer.Run();
     }
     void Update()
@@ -39,22 +49,67 @@ public class PoisonTower : MonoBehaviour
             {
                 Bullet.Create(shootingPosition, enemy, 3);
             }
+            timer.Duration = speed;
             timer.Run();
         }
-
     }
 
     private Enemy GetClosestEnemy()
     {
-        Enemy enemy = FindObjectOfType<Enemy>();
+        try
+        {
+            Enemy enemy = FindObjectOfType<Enemy>();
+            if (enemy != null)
+            {
+                return Enemy.GetClosestEnemy(transform.position, range);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch (System.Exception)
+        {
+        }
+        return null;
 
-        if (enemy != null)
+    }
+    public void changeRange(float radius)
+    {
+        Transform spriteTransform = transform.Find("range");
+        spriteTransform.localScale = new Vector3(range * 18 / 11, range * 18 / 11, 0);
+    }
+    public void activeRange()
+    {
+        changeRange(range);
+        rangeCircle.SetActive(true);
+    }
+    public void towerDefaul()
+    {
+        lvl = 1;
+        speed = 1.7f;
+        range = 5f;
+        damage = 5f;
+        poison = 1f;
+    }
+
+    public void updateTower()
+    {
+        lvl = lvl + 1;
+        damage = 5f + (lvl * 0.1f);
+        if ((lvl - 1) % 3 == 0)
         {
-            return Enemy.GetClosestEnemy(transform.position, 10f);
+            range = 5f + 5f * lvl / 10;
         }
-        else
+        if ((lvl - 1) % 5 == 0)
         {
-            return null;
+            poison = 2f + (1 + lvl / 5 * 0.2f);
         }
+        changeRange(range);
+    }
+
+    public float getPoison()
+    {
+        return poison;
     }
 }

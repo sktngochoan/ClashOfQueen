@@ -14,7 +14,6 @@ public class Tower : MonoBehaviour
     [SerializeField]
     private float range;
     private float damage;
-    private bool isHoldingDown = false;
     private GameObject rangeCircle;
     private void Awake()
     {
@@ -91,7 +90,22 @@ public class Tower : MonoBehaviour
     {
         lvl = 1;
         speed = 1.5f;
-        range = 11f;
+        range = 7f;
         damage = 6f;
+    }
+
+    public void updateTower()
+    {
+        lvl = lvl + 1;
+        damage = 6f + (lvl * 0.2f);
+        if((lvl-1) % 3 == 0)
+        {
+            range = 7f + 7f * lvl / 10;
+        }
+        if((lvl - 1) % 5 == 0)
+        {
+            speed = 1.5f - (1.5f * 0.1f);
+        }
+        changeRange(range);
     }
 }
