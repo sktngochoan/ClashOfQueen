@@ -87,7 +87,7 @@ public class IceTower : MonoBehaviour
     public void towerDefaul()
     {
         lvl = 1;
-        speed = 0.5f;
+        speed = 1.7f;
         range = 5f;
         damage = 5f;
         slow = 2f;
