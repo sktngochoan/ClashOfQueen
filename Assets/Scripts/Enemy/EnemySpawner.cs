@@ -34,7 +34,6 @@ public class EnemySpawner : MonoBehaviour
         int randomPrefabID = Random.Range(0, prefabs.Count);
         //Randomsize the spawn poit
         //Instantiate the enemy prefab
-        Debug.Log(spawnPoints);
         GameObject spawnedEnemy = Instantiate(prefabs[randomPrefabID],spawnPoints);
         spawnedEnemy.transform.position = spawnPoints.transform.position;
     }
