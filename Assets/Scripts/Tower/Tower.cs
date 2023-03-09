@@ -31,7 +31,7 @@ public class Tower : MonoBehaviour
     void Start()
     {
         getTowerPosition();
-        Enemy enemy = GetClosestEnemy();
+        EnemyList enemy = GetClosestEnemy();
         if (enemy != null)
         {
             Bullet.Create(shootingPosition, enemy,1);
@@ -45,7 +45,7 @@ public class Tower : MonoBehaviour
         if (timer.Finished)
         {
             getTowerPosition();
-            Enemy enemy = GetClosestEnemy();
+            EnemyList enemy = GetClosestEnemy();
 
             if (enemy != null)
             {
@@ -56,14 +56,14 @@ public class Tower : MonoBehaviour
         }
     }
 
-    private Enemy GetClosestEnemy()
+    private EnemyList GetClosestEnemy()
     {
         try
         {
-            Enemy enemy = FindObjectOfType<Enemy>();
+            EnemyList enemy = FindObjectOfType<EnemyList>();
             if (enemy != null)
             {
-                return Enemy.GetClosestEnemy(transform.position, range);
+                return EnemyList.GetClosestEnemy(transform.position, range);
             }
             else
             {

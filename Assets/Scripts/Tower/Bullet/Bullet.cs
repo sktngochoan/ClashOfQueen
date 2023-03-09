@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class Bullet : MonoBehaviour
 {
     public float slow = 2f;
-    public static void Create(Vector3 spawnPosition, Enemy enemy,int typeTower)
+    public static void Create(Vector3 spawnPosition, EnemyList enemy,int typeTower)
     {
         Transform bulletTransform = null;
         if(typeTower == 1)
@@ -24,8 +24,8 @@ public class Bullet : MonoBehaviour
         Bullet normalBullet = bulletTransform.GetComponent<Bullet>();
         normalBullet.Setup(enemy);
     }
-    private Enemy enemy;
-    private void Setup(Enemy enemy)
+    private EnemyList enemy;
+    private void Setup(EnemyList enemy)
     {
         this.enemy = enemy;
     }
