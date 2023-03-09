@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public EnemySpawner instance;
+    private EnemySpawner instance;
     void Awake() {instance= this;}
     //Enemy prefabs
     public List<GameObject> prefabs;
@@ -15,10 +15,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartSpawning()
     {
-        //Call the spawn coroutine
         StartCoroutine(SpawnDelay()); 
-        
-        
     }
     IEnumerator SpawnDelay()
     {
@@ -37,6 +34,8 @@ public class EnemySpawner : MonoBehaviour
         int randomPrefabID = Random.Range(0, prefabs.Count);
         //Randomsize the spawn poit
         //Instantiate the enemy prefab
+        Debug.Log(spawnPoints);
         GameObject spawnedEnemy = Instantiate(prefabs[randomPrefabID],spawnPoints);
+        spawnedEnemy.transform.position = spawnPoints.transform.position;
     }
 }
