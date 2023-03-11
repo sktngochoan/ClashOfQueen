@@ -10,11 +10,14 @@ public class EnemeEntity : MonoBehaviour
     public bool isSlow = false;
     public bool isPoison = false;
     public bool isDead = false;
-    int hp = 5;
-    int speed = 5;
+    private EnermyWalk enermyWalk;
+    private float slowPoint;
+    private float poisonPoint;
+    private float hp = 5;
+    private float speed = 5;
     private void Awake()
     {
-        EnermyWalk enermyWalk = gameObject.GetComponent<EnermyWalk>();
+        enermyWalk = gameObject.GetComponent<EnermyWalk>();
         enermyWalk.setSpeed(speed);
     }
     void Start()
@@ -36,7 +39,7 @@ public class EnemeEntity : MonoBehaviour
         {
             if(poisonTimer.Finished)
             {
-                hp = hp - 1;
+                hp = hp - poisonPoint;
                 poisonTimer.Duration = 1;
                 poisonTimer.Run();
             }
@@ -44,6 +47,9 @@ public class EnemeEntity : MonoBehaviour
         if(hp <= 0)
         {
             isDead = true;
+            SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+            sprite.flipY = true;
+            enermyWalk.setSpeed(0);
             Destroy(gameObject, 0.5f);
             EnemyList enemy = gameObject.GetComponent<EnemyList>();
             EnemyList.RemoveEnemy(enemy);
@@ -52,21 +58,39 @@ public class EnemeEntity : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D coll)
     {
+        if(isPoison == true)
+        {
+            gameObject.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0.1647f);
+        }
         if (coll.gameObject.CompareTag("iceBullet"))
         {
+            Bullet bullet = coll.gameObject.GetComponent<Bullet>();
+            EnermyWalk currentEnemy = gameObject.GetComponent<EnermyWalk>();
+            float slow = bullet.getSlow();
+            if(slow > 5)
+            {
+                slow = 5;
+            }
             if (isSlow == false)
             {
                 slowTimer.Duration = 3;
                 isSlow = true;
                 slowTimer.Run();
-                Bullet bullet = coll.gameObject.GetComponent<Bullet>();
-                EnermyWalk currentEnemy = gameObject.GetComponent<EnermyWalk>();
+                slowPoint = bullet.getSlow();
                 slowEnemy(currentEnemy, bullet.getSlow());
-                //slowTimer.OnTimerElapsed += ResetSpeed;
                 Destroy(coll.gameObject);
             }
             else
             {
+                if(slowPoint < bullet.getSlow())
+                {
+                    resetSpeed();
+                    slowPoint = bullet.getSlow();
+                    slowTimer.Duration = 3;
+                    isSlow = true;
+                    slowTimer.Run();
+                    slowEnemy(currentEnemy, bullet.getSlow());
+                }
                 Destroy(coll.gameObject);
             }
         }
@@ -76,10 +100,22 @@ public class EnemeEntity : MonoBehaviour
         }
         else if (coll.gameObject.CompareTag("poisonBullet"))
         {
-            if(isPoison == false)
+            Bullet bullet = coll.gameObject.GetComponent<Bullet>();
+            if (isPoison == false)
             {
+                poisonPoint = bullet.getPoison();
+                gameObject.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0.1647f);
                 isPoison = true;
                 poisonTimer.Run();
+            }
+            else
+            {
+                isPoison = true;
+                gameObject.GetComponent<Renderer>().material.color = new Color(0f, 1f, 0.1647f);
+                if (poisonPoint < bullet.getPoison())
+                {
+                    poisonPoint = bullet.getPoison();
+                }
             }
             Destroy(coll.gameObject);
         }
@@ -88,10 +124,12 @@ public class EnemeEntity : MonoBehaviour
     {
         EnermyWalk currentEnemy = gameObject.GetComponent<EnermyWalk>();
         currentEnemy.setSpeed(5);
+        currentEnemy.GetComponent<Renderer>().material.color = new Color(1f, 1f,1f,1f);
         isSlow = false;
     }
     private void slowEnemy(EnermyWalk enemy, float slowSpeed)
     {
+        enemy.GetComponent<Renderer>().material.color = new Color(1f, 0.15f, 0f);
         enemy.setSpeed(enemy.getSpeed() - slowSpeed);
     }
     public bool isDeaded()
