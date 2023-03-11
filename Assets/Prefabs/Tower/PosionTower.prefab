@@ -201,6 +201,9 @@ GameObject:
   - component: {fileID: 2055856656571637694}
   - component: {fileID: 2055856656571637693}
   - component: {fileID: -2552184804893956205}
+  - component: {fileID: 727851164}
+  - component: {fileID: 1017186095}
+  - component: {fileID: 774170272}
   m_Layer: 0
   m_Name: PosionTower
   m_TagString: Untagged
@@ -223,7 +226,7 @@ Transform:
   - {fileID: 582561126}
   - {fileID: 210897444}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2055856656571637693
 SpriteRenderer:
@@ -289,4 +292,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3673b9a906d5a4894171789063a44a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  updatePanel: {fileID: 0}
+  bullet: {fileID: -2369156907469910135, guid: aee183cf3e9213345b4f449e111184f1, type: 3}
+--- !u!61 &727851164
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055856656571637692}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 1.28}
+    newSize: {x: 0.8828125, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 1.28}
+  m_EdgeRadius: 0
+--- !u!114 &1017186095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055856656571637692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541848f4bf2697429206da9235a18f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lvl: 1
+  range: 4
+  speed: 1.7
+  damage: 5
+  poison: 1
+  slow: 0
+  price: 50
+  updatePrice: 60
+  damageScale: 0.1
+  speedScale: 0
+  rangeScale: 50
+  slowScale: 0
+  poisonScale: 0.2
+  maxRange: 7
+--- !u!114 &774170272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055856656571637692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 367f170622f1ee8429db5de5d31249f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

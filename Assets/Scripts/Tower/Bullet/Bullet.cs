@@ -5,8 +5,10 @@ using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
-    public float slow = 2f;
-    public static void Create(Vector3 spawnPosition, EnemyList enemy,int typeTower)
+    private float slow = 1;
+    private float poison;
+    
+    public void Create(Vector3 spawnPosition, EnemyList enemy,int typeTower,float newSlow,float poison)
     {
         Transform bulletTransform = null;
         if(typeTower == 1)
@@ -15,19 +17,23 @@ public class Bullet : MonoBehaviour
         }
         else if (typeTower == 2)
         {
+            setSlow(newSlow);
             bulletTransform = Instantiate(GameAssets.i.iceBullet, spawnPosition, Quaternion.identity);
         }
         else
         {
+            setPoison(poison);
             bulletTransform = Instantiate(GameAssets.i.poisonBullet, spawnPosition, Quaternion.identity);
         }
         Bullet normalBullet = bulletTransform.GetComponent<Bullet>();
-        normalBullet.Setup(enemy);
+        normalBullet.Setup(enemy,newSlow,poison);
     }
     private EnemyList enemy;
-    private void Setup(EnemyList enemy)
+    private void Setup(EnemyList enemy,float slow,float poison)
     {
         this.enemy = enemy;
+        this.slow = slow;
+        this.poison = poison;
     }
 
     private void Update()
@@ -38,11 +44,6 @@ public class Bullet : MonoBehaviour
         transform.position += moveDir * moveSpeed * Time.deltaTime;
         float anlge = changeAngle(moveDir);
         gameObject.transform.eulerAngles = new Vector3(0, 0, anlge);
-        //float destroyDistance = 1f;
-        //if(Vector3.Distance(transform.position,targetPosition) < destroyDistance)
-        //{
-        //    Destroy(gameObject);
-        //}
     }
 
     private float changeAngle(Vector3 dir)
@@ -52,9 +53,20 @@ public class Bullet : MonoBehaviour
         if (n < 0) n += 360;
         return n;
     }
-
     public float getSlow()
     {
         return slow;
+    }
+    public float getPoison()
+    {
+        return poison;
+    }
+    public void setSlow(float slow)
+    {
+        this.slow = slow;
+    }
+    public void setPoison(float poison)
+    {
+        this.poison = poison;
     }
 }

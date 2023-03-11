@@ -8,6 +8,9 @@ TagManager:
   - poisonBullet
   - normalBullet
   - Enemy
+  - normalBulle
+  - towerPedestal
+  - Tower
   layers:
   - Default
   - TransparentFX
