@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemeEntity : MonoBehaviour
@@ -13,8 +11,10 @@ public class EnemeEntity : MonoBehaviour
     private EnermyWalk enermyWalk;
     private float slowPoint;
     private float poisonPoint;
-    private float hp = 5;
-    private float speed = 5;
+    public float hp;
+    public float speed;
+    public int coint;
+    private GameManager manager;
     private void Awake()
     {
         enermyWalk = gameObject.GetComponent<EnermyWalk>();
@@ -22,6 +22,7 @@ public class EnemeEntity : MonoBehaviour
     }
     void Start()
     {
+        manager = FindObjectOfType<GameManager>();
         slowTimer = gameObject.AddComponent<Timer>();
         slowTimer.Duration = 3;
         poisonTimer = gameObject.AddComponent<Timer>();
@@ -43,9 +44,14 @@ public class EnemeEntity : MonoBehaviour
                 poisonTimer.Duration = 1;
                 poisonTimer.Run();
             }
-        }
+        }   
         if(hp <= 0)
         {
+           
+            if(isDead == false)
+            {
+                manager.coint.addCoint(getCoint());
+            }
             isDead = true;
             SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
             sprite.flipY = true;
@@ -65,6 +71,7 @@ public class EnemeEntity : MonoBehaviour
         if (coll.gameObject.CompareTag("iceBullet"))
         {
             Bullet bullet = coll.gameObject.GetComponent<Bullet>();
+            hp -= bullet.getDamage();
             EnermyWalk currentEnemy = gameObject.GetComponent<EnermyWalk>();
             float slow = bullet.getSlow();
             if(slow > 5)
@@ -96,11 +103,14 @@ public class EnemeEntity : MonoBehaviour
         }
         else if (coll.gameObject.CompareTag("normalBullet"))
         {
+            Bullet bullet = coll.gameObject.GetComponent<Bullet>();
+            hp -= bullet.getDamage();
             Destroy(coll.gameObject);
         }
         else if (coll.gameObject.CompareTag("poisonBullet"))
         {
             Bullet bullet = coll.gameObject.GetComponent<Bullet>();
+            hp -= bullet.getDamage();
             if (isPoison == false)
             {
                 poisonPoint = bullet.getPoison();
@@ -135,5 +145,17 @@ public class EnemeEntity : MonoBehaviour
     public bool isDeaded()
     {
         return isDead;
+    }
+    public float getHp()
+    {
+        return hp;
+    }
+    public float getSpeed()
+    {
+        return speed;
+    }
+    public int getCoint()
+    {
+        return coint;
     }
 }

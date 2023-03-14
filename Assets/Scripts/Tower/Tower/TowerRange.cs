@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class TowerRange : MonoBehaviour
@@ -12,7 +10,7 @@ public class TowerRange : MonoBehaviour
     {
         rangeCircle = transform.Find("range").gameObject;
         entity = gameObject.GetComponent<TowerEntity>();
-        changeRange(5);
+        changeRange(entity.getRange());
         rangeCircle.SetActive(false);
     }
     void Start()

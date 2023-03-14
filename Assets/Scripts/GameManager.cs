@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -20,28 +18,39 @@ public class GameManager : MonoBehaviour
     public TowerEntity updateTower;
     [SerializeField]
     private Tilemap spawnTilemap;
+    public Coint coint;
+    GameObject update;
     void Awake() { instance = this; }
     public delegate void ButtonClickedEventHandler();
 
-    public event ButtonClickedEventHandler ButtonClickedEvent;
 
     public void OnButtonClicked()
     {
-        updateTower.updateTower();
-        TowerRange towerRange = updateTower.GetComponent<TowerRange>();
-        towerRange.getCurrentRange();
+        if(coint.getCoint() < updateTower.getUpdatePrice())
+        {
+            Debug.Log("Need coint to update!");
+        } else
+        {
+            updateTower.updateTower();
+            TowerRange towerRange = updateTower.GetComponent<TowerRange>();
+            towerRange.getCurrentRange();
+            coint.loseCoint(updateTower.getUpdatePrice());
+        }
+        
     }
     public void OnButtonSellClick()
     {
         var position = spawnTilemap.WorldToCell(updateTower.gameObject.transform.position);
         spawnTilemap.SetColliderType(position, Tile.ColliderType.Sprite);
+        coint.addCoint((updateTower.getPrice() + (updateTower.getLv() - 1) * updateTower.getUpdatePrice()) / 2);
         Destroy(updateTower.gameObject);
         updatePanel.SetActive(false);
     }
     void Start()
     {
+        coint = GameObject.FindGameObjectWithTag("HUD1").GetComponent<Coint>();
         updatePanel = Instantiate(panelPrefab, canvas.transform);
-        GameObject update = updatePanel.transform.Find("Update").gameObject;
+        update = updatePanel.transform.Find("Update").gameObject;
         GameObject sell = updatePanel.transform.Find("Sell").gameObject;
         Button buttonUpdate = update.GetComponents<Button>()[0];
         Button buttonSell = sell.GetComponents<Button>()[0];
@@ -72,6 +81,14 @@ public class GameManager : MonoBehaviour
     public void selectUpdatePanel(TowerEntity updateTower)
     {
         updatePanel.SetActive(true);
+        if(updateTower.getRange() == 0)
+        {
+            update.SetActive(false);
+        }
+        else
+        {
+            update.SetActive(true);
+        }
         this.updateTower = updateTower;
     }
     public void setTextUpdatePanel(int sell, int update)

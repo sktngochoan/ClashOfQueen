@@ -11,6 +11,8 @@ TagManager:
   - normalBulle
   - towerPedestal
   - Tower
+  - HUD
+  - HUD1
   layers:
   - Default
   - TransparentFX

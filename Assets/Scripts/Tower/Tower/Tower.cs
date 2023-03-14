@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Diagnostics;
-using UnityEngine.EventSystems;
 
 public class Tower : MonoBehaviour
 {
@@ -30,7 +26,7 @@ public class Tower : MonoBehaviour
         EnemyList enemy = GetClosestEnemy();
         if (enemy != null)
         {
-            bullet.Create(shootingPosition, enemy, 1, 0, 0);
+            bullet.Create(shootingPosition, enemy, 1, 0, 0,entity.getDamage());
         }
         timer = gameObject.AddComponent<Timer>();
         timer.Duration = entity.getSpeed();
@@ -45,7 +41,7 @@ public class Tower : MonoBehaviour
 
             if (enemy != null)
             {
-                bullet.Create(shootingPosition, enemy, 1, 0, 0);
+                bullet.Create(shootingPosition, enemy, 1, 0, 0, entity.getDamage());
             }
             timer.Duration = entity.getSpeed();
             timer.Run();
