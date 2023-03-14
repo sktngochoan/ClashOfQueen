@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PoisonTower : MonoBehaviour
@@ -28,7 +27,7 @@ public class PoisonTower : MonoBehaviour
         EnemyList enemy = GetClosestEnemy();
         if (enemy != null)
         {
-            bullet.Create(shootingPosition, enemy, 3, 0, entity.getPoison());
+            bullet.Create(shootingPosition, enemy, 3, 0, entity.getPoison(),entity.getDamage());
         }
         timer = gameObject.AddComponent<Timer>();
         timer.Duration = entity.getSpeed();
@@ -43,7 +42,7 @@ public class PoisonTower : MonoBehaviour
 
             if (enemy != null)
             {
-                bullet.Create(shootingPosition, enemy, 3, 0, entity.getPoison());
+                bullet.Create(shootingPosition, enemy, 3, 0, entity.getPoison(), entity.getDamage());
             }
             timer.Duration = entity.getSpeed();
             timer.Run();

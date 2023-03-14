@@ -1,49 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
     private float slow = 1;
     private float poison;
-    
-    public void Create(Vector3 spawnPosition, EnemyList enemy,int typeTower,float newSlow,float poison)
+    private float damage;
+    public void Create(Vector3 spawnPosition, EnemyList enemy,int typeTower,float newSlow,float poison,float dama)
     {
         Transform bulletTransform = null;
         if(typeTower == 1)
         {
+            setDamage(dama);
             bulletTransform = Instantiate(GameAssets.i.normalBullet, spawnPosition, Quaternion.identity);
         }
         else if (typeTower == 2)
         {
+            setDamage(dama);
             setSlow(newSlow);
             bulletTransform = Instantiate(GameAssets.i.iceBullet, spawnPosition, Quaternion.identity);
         }
         else
         {
+            setDamage(dama);
             setPoison(poison);
             bulletTransform = Instantiate(GameAssets.i.poisonBullet, spawnPosition, Quaternion.identity);
         }
         Bullet normalBullet = bulletTransform.GetComponent<Bullet>();
-        normalBullet.Setup(enemy,newSlow,poison);
+        normalBullet.Setup(enemy,newSlow,poison, dama);
     }
     private EnemyList enemy;
-    private void Setup(EnemyList enemy,float slow,float poison)
+    private void Setup(EnemyList enemy,float slow,float poison,float damage)
     {
         this.enemy = enemy;
         this.slow = slow;
         this.poison = poison;
+        this.damage = damage;
     }
 
     private void Update()
     {
-        Vector3 targetPosition = enemy.GetPosition();
-        Vector3 moveDir = (targetPosition - transform.position).normalized;
-        float moveSpeed = 20f;
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
-        float anlge = changeAngle(moveDir);
-        gameObject.transform.eulerAngles = new Vector3(0, 0, anlge);
+        try
+        {
+            Vector3 targetPosition = enemy.GetPosition();
+            Vector3 moveDir = (targetPosition - transform.position).normalized;
+            float moveSpeed = 20f;
+            transform.position += moveDir * moveSpeed * Time.deltaTime;
+            float anlge = changeAngle(moveDir);
+            gameObject.transform.eulerAngles = new Vector3(0, 0, anlge);
+        }
+        catch (System.Exception)
+        {
+        }
+        
     }
 
     private float changeAngle(Vector3 dir)
@@ -52,6 +61,14 @@ public class Bullet : MonoBehaviour
         float n = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         if (n < 0) n += 360;
         return n;
+    }
+    public void setDamage(float damage)
+    {
+        this.damage = damage;
+    }
+    public float getDamage()
+    {
+        return damage;
     }
     public float getSlow()
     {

@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class IceTower : MonoBehaviour
 {
@@ -29,7 +27,7 @@ public class IceTower : MonoBehaviour
         EnemyList enemy = GetClosestEnemy();
         if (enemy != null)
         {
-            bullet.Create(shootingPosition, enemy, 2,entity.getSlow(),0);
+            bullet.Create(shootingPosition, enemy, 2,entity.getSlow(),0,entity.getDamage());
         }
         timer = gameObject.AddComponent<Timer>();
         timer.Duration = entity.getSpeed();
@@ -44,7 +42,7 @@ public class IceTower : MonoBehaviour
 
             if (enemy != null)
             {
-                bullet.Create(shootingPosition, enemy, 2,entity.getSlow(),0);
+                bullet.Create(shootingPosition, enemy, 2,entity.getSlow(),0,entity.getDamage());
             }
             timer.Duration = entity.getSpeed();
             timer.Run();

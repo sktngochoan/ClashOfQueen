@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class EnermyWalk : MonoBehaviour
 {
-    public float speed = 5.0f; // tốc độ di chuyển của quái thú
+    public float speed; // tốc độ di chuyển của quái thú
     public float distanceThreshold = 0.1f; // khoảng cách giữa quái thú và điểm đến được coi là đến nếu nhỏ hơn threshold này
     private Vector3[] waypoints; // mảng chứa tọa độ các điểm đến
     private int currentWaypoint = 0; // chỉ số của điểm đến hiện tại
@@ -14,7 +13,8 @@ public class EnermyWalk : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // tìm kiếm và lưu trữ tọa độ của các điểm đến vào mảng
+        EnemeEntity enemy = gameObject.GetComponent<EnemeEntity>();
+        setSpeed(enemy.getSpeed());
         animator = GetComponent<Animator>();
         waypoints = new Vector3[12];
         for (int i = 1; i <= 12; i++)
@@ -51,6 +51,12 @@ public class EnermyWalk : MonoBehaviour
                
                 if (currentWaypoint ==12 )
                 {
+                    HpCastle hud = GameObject.FindGameObjectWithTag("HUD").GetComponent<HpCastle>();
+                    hud.loseHp(1);
+                    if(hud.getHp() == 0)
+                    {
+                        Time.timeScale = 0;
+                    }
                     // nếu quái thú đã đi đến điểm đến cuối cùng, hủy đối tượng quái thú và trừ điểm máu của player
                     Destroy(gameObject,3f);
                     EnemyList enemy = gameObject.GetComponent<EnemyList>();

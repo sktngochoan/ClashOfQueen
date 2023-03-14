@@ -167,6 +167,9 @@ MonoBehaviour:
   isSlow: 0
   isPoison: 0
   isDead: 0
+  hp: 30
+  speed: 3
+  coint: 3
 --- !u!95 &2057938910
 Animator:
   serializedVersion: 5

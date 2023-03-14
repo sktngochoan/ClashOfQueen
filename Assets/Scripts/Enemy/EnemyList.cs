@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class EnemyList : MonoBehaviour
@@ -45,20 +41,27 @@ public class EnemyList : MonoBehaviour
                     continue;
                 }else
                 {
-                    if (Vector3.Distance(position, enemy.GetPosition()) <= maxRange)
+                    try
                     {
-                        if (closest == null)
+                        if (Vector3.Distance(position, enemy.GetPosition()) <= maxRange)
                         {
-                            closest = enemy;
-                        }
-                        else
-                        {
-                            if (Vector3.Distance(position, enemy.GetPosition()) < Vector3.Distance(position, closest.GetPosition()))
+                            if (closest == null)
                             {
                                 closest = enemy;
                             }
+                            else
+                            {
+                                if (Vector3.Distance(position, enemy.GetPosition()) < Vector3.Distance(position, closest.GetPosition()))
+                                {
+                                    closest = enemy;
+                                }
+                            }
                         }
                     }
+                    catch (Exception)
+                    {
+                    }
+                    
                 }
                 
             }

@@ -1,4 +1,4 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -44,13 +44,23 @@ public class SpawnTower : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var cellPosDefault = spawnTilemap.WorldToCell(mousePos);
-            var cellPosCenter = spawnTilemap.GetCellCenterWorld(cellPosDefault);
-            if(spawnTilemap.GetColliderType(cellPosDefault) == Tile.ColliderType.Sprite)
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            TowerEntity entity = towerPrefabs[spawnId].GetComponent<TowerEntity>();
+            if(gameManager.coint.getCoint() < entity.getPrice())
             {
-                spawnTilemap.SetColliderType(cellPosDefault, Tile.ColliderType.None);
-                spawnTower(cellPosCenter,cellPosDefault);
+                Debug.Log("Need money");
+            }
+            else
+            {
+                var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                var cellPosDefault = spawnTilemap.WorldToCell(mousePos);
+                var cellPosCenter = spawnTilemap.GetCellCenterWorld(cellPosDefault);
+                if (spawnTilemap.GetColliderType(cellPosDefault) == Tile.ColliderType.Sprite)
+                {
+                    spawnTilemap.SetColliderType(cellPosDefault, Tile.ColliderType.None);
+                    spawnTower(cellPosCenter, cellPosDefault);
+                    gameManager.coint.loseCoint(entity.getPrice());
+                }
             }
         }
     }
