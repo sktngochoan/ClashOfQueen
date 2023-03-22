@@ -27,6 +27,7 @@ public class Tower : MonoBehaviour
         if (enemy != null)
         {
             bullet.Create(shootingPosition, enemy, 1, 0, 0,entity.getDamage());
+            AudioManager.Play(AudioClipName.TowerShoot);
         }
         timer = gameObject.AddComponent<Timer>();
         timer.Duration = entity.getSpeed();
@@ -41,6 +42,7 @@ public class Tower : MonoBehaviour
 
             if (enemy != null)
             {
+                AudioManager.Play(AudioClipName.TowerShoot);
                 bullet.Create(shootingPosition, enemy, 1, 0, 0, entity.getDamage());
             }
             timer.Duration = entity.getSpeed();

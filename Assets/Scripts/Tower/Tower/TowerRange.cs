@@ -45,7 +45,8 @@ public class TowerRange : MonoBehaviour
             gameManager.selectUpdatePanel(gameObject.GetComponent<TowerEntity>());
             int price = entity.getPrice();
             int update = entity.getUpdatePrice();
-            gameManager.setTextUpdatePanel(price, update);
+            int lv = entity.getLv();
+            gameManager.setTextUpdatePanel((price + (lv-1) * update) / 2, update) ;
         }
        
     }

@@ -56,6 +56,7 @@ public class EnermyWalk : MonoBehaviour
                     if(hud.getHp() == 0)
                     {
                         Time.timeScale = 0;
+                        MenuManager.GoToMenu(MenuName.Restart);
                     }
                     // nếu quái thú đã đi đến điểm đến cuối cùng, hủy đối tượng quái thú và trừ điểm máu của player
                     Destroy(gameObject,3f);
@@ -99,5 +100,13 @@ public class EnermyWalk : MonoBehaviour
     public void setSpeed(float speed)
     {
         this.speed = speed;
+    }
+    public int getCurrentPoint()
+    {
+        return currentWaypoint;
+    }
+    public void setCurrentPoint(int current)
+    {
+        currentWaypoint = current;
     }
 }

@@ -14,6 +14,7 @@ public class EnemeEntity : MonoBehaviour
     public float hp;
     public float speed;
     public int coint;
+    public int type;
     private GameManager manager;
     private void Awake()
     {
@@ -157,5 +158,9 @@ public class EnemeEntity : MonoBehaviour
     public int getCoint()
     {
         return coint;
+    }
+    public int getType()
+    {
+        return type;
     }
 }

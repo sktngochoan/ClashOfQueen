@@ -24,6 +24,7 @@ public class RefugeeCamp : MonoBehaviour
         if(timer.Finished)
         {
             timer.Run();
+            AudioManager.Play(AudioClipName.AddCoint);
             gameManager.coint.addCoint(10);
             Instantiate(coint, position.position, Quaternion.identity);
         }

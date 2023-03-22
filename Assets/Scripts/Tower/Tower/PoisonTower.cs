@@ -27,6 +27,7 @@ public class PoisonTower : MonoBehaviour
         EnemyList enemy = GetClosestEnemy();
         if (enemy != null)
         {
+            AudioManager.Play(AudioClipName.TowerShoot);
             bullet.Create(shootingPosition, enemy, 3, 0, entity.getPoison(),entity.getDamage());
         }
         timer = gameObject.AddComponent<Timer>();
@@ -42,6 +43,7 @@ public class PoisonTower : MonoBehaviour
 
             if (enemy != null)
             {
+                AudioManager.Play(AudioClipName.TowerShoot);
                 bullet.Create(shootingPosition, enemy, 3, 0, entity.getPoison(), entity.getDamage());
             }
             timer.Duration = entity.getSpeed();
