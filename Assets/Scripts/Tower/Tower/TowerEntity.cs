@@ -123,7 +123,30 @@ public class TowerEntity : MonoBehaviour
             }
             else
             {
-                speed = 1.5f - (1.5f * speedScale);
+                if(speed > 1f)
+                {
+                    speed = speed - (1.5f * speedScale);
+                }
+            }
+        }
+    }
+    public void setOnLoad()
+    {
+        lvl = lvl;
+        damage = damage + (lvl * damageScale);
+        if (range < maxRange)
+        {
+           range = 5 + 5 * lvl / rangeScale;
+        }
+        if ((lvl - 1) % 5 == 0)
+        {
+            if (slow != 0)
+            {
+                slow = 1f + (lvl / 5 * slowScale);
+            }
+            else if (poison != 0)
+            {
+                poison = 2f + (1 + lvl / 5 * poisonScale);
             }
         }
     }

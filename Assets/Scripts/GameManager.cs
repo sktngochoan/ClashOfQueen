@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -17,20 +19,24 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI sellText;
     public TowerEntity updateTower;
     [SerializeField]
-    private Tilemap spawnTilemap;
+    public Tilemap spawnTilemap;
+    [SerializeField]
+    public List<GameObject> enermyList;
     public Coint coint;
     GameObject update;
+    private string filePath = "/Files/enermy.txt";
+    private string filePathItems = "/Files/items.txt";
     void Awake() { instance = this; }
     public delegate void ButtonClickedEventHandler();
-
 
     public void OnButtonClicked()
     {
         if(coint.getCoint() < updateTower.getUpdatePrice())
         {
-            Debug.Log("Need coint to update!");
+            AudioManager.Play(AudioClipName.BuyFail);
         } else
         {
+            AudioManager.Play(AudioClipName.BuyTower);
             updateTower.updateTower();
             TowerRange towerRange = updateTower.GetComponent<TowerRange>();
             towerRange.getCurrentRange();
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviour
     }
     public void OnButtonSellClick()
     {
+        AudioManager.Play(AudioClipName.BuyTower);
         var position = spawnTilemap.WorldToCell(updateTower.gameObject.transform.position);
         spawnTilemap.SetColliderType(position, Tile.ColliderType.Sprite);
         coint.addCoint((updateTower.getPrice() + (updateTower.getLv() - 1) * updateTower.getUpdatePrice()) / 2);
@@ -60,8 +67,21 @@ public class GameManager : MonoBehaviour
         sellText = sell.GetComponentInChildren<TextMeshProUGUI>();
         updatePanel.SetActive(false);
         StartCoroutine(WaveStartDelay());
+        checkLoadGame();
     }
-
+    public void checkLoadGame()
+    {
+        if(PlayerPrefs.GetInt("isLoad") == 1)
+        {
+            SpawnTower spawnTower = FindObjectOfType<SpawnTower>();
+            spawnTower.loadTower();
+            spawnEnermy();
+            loadItem();
+        }
+        else
+        {
+        }
+    }
     IEnumerator WaveStartDelay()
     {
         //Wait for X second
@@ -95,5 +115,60 @@ public class GameManager : MonoBehaviour
     {
         updateText.text = update + "$";
         sellText.text = sell + "$";
+    }
+    private void spawnEnermy()
+    {
+        string content = File.ReadAllText(Application.dataPath + filePath);
+        string[] content1 = content.Split("\n");
+
+        for (int i = 0; i < content1.Length; i++)
+        {
+            try
+            {
+                float x = float.Parse(content1[i].Split(",")[0]);
+                float y = float.Parse(content1[i].Split(",")[1]);
+                float z = float.Parse(content1[i].Split(",")[2]);
+                float hp = float.Parse(content1[i].Split(",")[3]);
+                float speed = float.Parse(content1[i].Split(",")[4]);
+                int type = int.Parse(content1[i].Split(",")[5]);
+                int current = int.Parse(content1[i].Split(",")[6]);
+                bool flip = bool.Parse(content1[i].Split(",")[7]);
+                GameObject enermy = Instantiate(enermyList[type]);
+                SpriteRenderer sprite = enermy.GetComponent<SpriteRenderer>();
+                sprite.flipX = flip;
+                enermy.transform.position = new Vector3(x, y, z);
+                EnemeEntity entity = enermy.GetComponent<EnemeEntity>();
+                EnermyWalk enermyWalk = enermy.GetComponent<EnermyWalk>();
+                enermyWalk.setCurrentPoint(current);
+                entity.hp = hp;
+                entity.speed = speed;
+            }
+            catch
+            {
+
+            }
+
+        }
+    }
+    private void loadItem()
+    {
+        string content = File.ReadAllText(Application.dataPath + filePathItems);
+        string[] content1 = content.Split("\n");
+
+        for (int i = 0; i < content1.Length; i++)
+        {
+            try
+            {
+                int currentCoint = int.Parse(content1[i].Split(",")[0]);
+                int hp = int.Parse(content1[i].Split(",")[1]);
+                coint.setCoint(currentCoint);
+                HpCastle hpCastle = FindObjectOfType<HpCastle>();
+                hpCastle.setHp(hp);
+            }
+            catch
+            {
+            }
+
+        }
     }
 }

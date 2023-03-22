@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1221973895}
   m_Layer: 0
   m_Name: EnermyZ
-  m_TagString: Untagged
+  m_TagString: Enermy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   hp: 35
   speed: 7
   coint: 5
+  type: 2
 --- !u!95 &1221973895
 Animator:
   serializedVersion: 5

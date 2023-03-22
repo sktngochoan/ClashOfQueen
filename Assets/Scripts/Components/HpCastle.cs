@@ -16,6 +16,10 @@ public class HpCastle : MonoBehaviour
     {
         return score;
     }
+    public void setHp(int hp)
+    {
+        this.score = hp;
+    }
     public void addHp(int points)
     {
         score += points;

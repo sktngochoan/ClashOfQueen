@@ -27,6 +27,7 @@ public class IceTower : MonoBehaviour
         EnemyList enemy = GetClosestEnemy();
         if (enemy != null)
         {
+            AudioManager.Play(AudioClipName.TowerShoot);
             bullet.Create(shootingPosition, enemy, 2,entity.getSlow(),0,entity.getDamage());
         }
         timer = gameObject.AddComponent<Timer>();
@@ -42,6 +43,7 @@ public class IceTower : MonoBehaviour
 
             if (enemy != null)
             {
+                AudioManager.Play(AudioClipName.TowerShoot);
                 bullet.Create(shootingPosition, enemy, 2,entity.getSlow(),0,entity.getDamage());
             }
             timer.Duration = entity.getSpeed();

@@ -7,7 +7,7 @@ public class Coint : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     const string scorePrefix = "";
-    int score = 1000;
+    int score = 200;
     void Start()
     {
         scoreText.text = scorePrefix + score.ToString();
@@ -15,6 +15,10 @@ public class Coint : MonoBehaviour
     public int getCoint()
     {
         return score;
+    }
+    public void setCoint(int score)
+    {
+        this.score = score;
     }
     public void addCoint(int points)
     {
